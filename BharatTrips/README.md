@@ -18,7 +18,7 @@ BharatTrips is a modern, high-performance travel booking platform designed for s
 - **Styling**: Tailwind CSS
 - **State Management**: Redux Toolkit
 - **Navigation**: React Router 6
-- **Icons**: Material UI (MUI) Icons
+- **Components & Icons**: Material UI (MUI)
 - **Mock Data**: Scalable local data structures for demonstration.
 
 ## 📁 Project Structure
@@ -58,10 +58,6 @@ To create an optimized production build:
 ```bash
 npm run build
 ```
-
-## 👨‍💻 Developed by Humans
-
-This project has been refactored to emphasize clean code, maintainable patterns, and a robust architecture. It moves away from monolithic AI-generated files toward a modular system that scales.
 
 ---
 
