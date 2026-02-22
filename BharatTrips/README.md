@@ -2,13 +2,13 @@
 
 BharatTrips is a modern, high-performance travel booking platform designed for seamless travel planning. Whether you're flying across the country, booking a luxury hotel, or hopping on a bus, BharatTrips provides a unified and intuitive experience for all your travel needs.
 
-![BharatTrips Hero](../src/assets/image.png)
+![BharatTrips Hero](./src/assets/image.png)
 
 ## 🚀 Features
 
 - **Multi-Category Search**: Effortlessly search for Flights, Hotels, Trains, Buses, and Cabs.
 - **Smart Filters**: Refine your search results by price, ratings, timing, and more.
-- **Dynamic Booking Flow**: A mock booking interface to demonstrate user journey from selection to confirmation.
+- **Dynamic Booking Flow**: A mock booking interface to demonstrate the user journey from selection to confirmation.
 - **Human-Centric Design**: Modularized architecture built for maintainability and performance.
 - **Rich Aesthetics**: Premium UI with glassmorphism, smooth animations, and responsive design.
 
