@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@400;500;600&display=swap');
+
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --font-sans: "Outfit", "Inter", "system-ui", "sans-serif";
+  --radius-2xl: 1rem;
+  --radius-3xl: 1.5rem;
+  --shadow-soft: 0 4px 20px -2px rgba(0, 0, 0, 0.06);
+
+  --color-brand-50:  #fafafa;
+  --color-brand-100: #f4f4f5;
+  --color-brand-200: #e4e4e7;
+  --color-brand-300: #d4d4d8;
+  --color-brand-400: #a1a1aa;
+  --color-brand-500: #71717a;
+  --color-brand-600: #52525b;
+  --color-brand-700: #3f3f46;
+  --color-brand-800: #27272a;
+  --color-brand-900: #18181b;
+  --color-brand-950: #09090b;
+}
+
+@layer base {
+  :root {
+    --sidebar-w: 260px;
+  }
+
+  * {
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-zinc-900 transition-colors duration-300;
+    margin: 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  .dark body,
+  .dark {
+    @apply bg-zinc-950 text-zinc-100;
+  }
+
+  ::selection {
+    background: rgba(0, 0, 0, 0.12);
+  }
+
+  .dark ::selection {
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-zinc-300 dark:bg-zinc-700 rounded-full;
+  }
+}
