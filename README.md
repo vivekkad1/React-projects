@@ -1,5 +1,5 @@
 1. [BharatTRips](https://cheerful-crostata-7dd856.netlify.app/)
-2. [JobTrackr](https://stunning-florentine-a406d0.netlify.app/dashboard)
+2. [JobTrackr](https://visionary-valkyrie-57f2d2.netlify.app/login)
 3. [Restaurant](https://vocal-gecko-4ff66f.netlify.app/#home)
 4. [Hangman](https://golden-sherbet-626d3c.netlify.app/)
 5. [Weather Watch India](https://genuine-starburst-e1a652.netlify.app/)
