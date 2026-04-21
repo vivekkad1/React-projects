@@ -2,11 +2,6 @@
 
 A clean, modern job application tracker built with React. Keep all your job applications organised in one place — track statuses, attach resumes, set reminders, and get a visual overview of your job search progress.
 
-![JobTrackr](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)
-![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat&logo=vite&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
-![MUI](https://img.shields.io/badge/MUI-7-007FFF?style=flat&logo=mui&logoColor=white)
-
 ---
 
 ## Features
@@ -121,6 +116,3 @@ All application data, including uploaded resumes (Base-64 encoded) is stored in 
 
 ---
 
-## License
-
-MIT
