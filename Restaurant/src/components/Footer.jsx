@@ -8,7 +8,7 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-4">
         <ul className="flex flex-wrap gap-4 items-center">
           <li>
-            <a href="#" aria-label="Instagram" className="flex items-center">
+            <a href="https://www.instagram.com/" aria-label="Instagram" className="flex items-center">
               <InstagramIcon />
               <span className="hidden md:inline ml-2 text-lg">Instagram</span>
             </a>
