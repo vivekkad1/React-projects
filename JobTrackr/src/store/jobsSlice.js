@@ -1,16 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadState } from '../utils/localStorage';
-
-const persisted = loadState('jobs');
 
 const initialState = {
-  jobs: Array.isArray(persisted?.jobs) ? persisted.jobs : [],
+  jobs: [],
 };
 
 const jobsSlice = createSlice({
   name: 'jobs',
   initialState,
   reducers: {
+    setJobs(state, action) {
+      state.jobs = action.payload;
+    },
     addJob(state, action) {
       state.jobs.unshift(action.payload);
     },
@@ -21,8 +21,11 @@ const jobsSlice = createSlice({
     deleteJob(state, action) {
       state.jobs = state.jobs.filter((j) => j.id !== action.payload);
     },
+    clearJobs(state) {
+      state.jobs = [];
+    },
   },
 });
 
-export const { addJob, updateJob, deleteJob } = jobsSlice.actions;
+export const { setJobs, addJob, updateJob, deleteJob, clearJobs } = jobsSlice.actions;
 export default jobsSlice.reducer;

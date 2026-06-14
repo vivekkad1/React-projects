@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { formatDate, daysUntil } from '../utils/dateHelpers';
@@ -7,11 +8,11 @@ import {
 } from 'lucide-react';
 
 const STAT_CARDS = [
-  { label: 'Total',     key: 'All',       icon: Briefcase, color: 'text-zinc-900 dark:text-zinc-50', bg: 'bg-zinc-100 dark:bg-zinc-800/40' },
-  { label: 'Applied',   key: 'Applied',   icon: Send,      color: 'text-zinc-500 dark:text-zinc-400', bg: 'bg-zinc-100 dark:bg-zinc-700/30' },
-  { label: 'Interview', key: 'Interview', icon: Users,     color: 'text-zinc-700 dark:text-zinc-300', bg: 'bg-zinc-200 dark:bg-zinc-800/30' },
-  { label: 'Offer',     key: 'Offer',     icon: Trophy,    color: 'text-zinc-900 dark:text-zinc-50', bg: 'bg-zinc-900/20 dark:bg-zinc-900/60' },
-  { label: 'Rejected',  key: 'Rejected',  icon: XCircle,   color: 'text-zinc-300 dark:text-zinc-500', bg: 'bg-zinc-100 dark:bg-zinc-700/20' },
+  { label: 'Total',     key: 'All',       icon: Briefcase, color: 'text-indigo-600 dark:text-indigo-400', bg: 'bg-indigo-50 dark:bg-indigo-950/40' },
+  { label: 'Applied',   key: 'Applied',   icon: Send,      color: 'text-sky-600 dark:text-sky-400',       bg: 'bg-sky-50 dark:bg-sky-950/40' },
+  { label: 'Interview', key: 'Interview', icon: Users,     color: 'text-amber-600 dark:text-amber-400',   bg: 'bg-amber-50 dark:bg-amber-950/40' },
+  { label: 'Offer',     key: 'Offer',     icon: Trophy,    color: 'text-emerald-600 dark:text-emerald-400', bg: 'bg-emerald-50 dark:bg-emerald-950/40' },
+  { label: 'Rejected',  key: 'Rejected',  icon: XCircle,   color: 'text-rose-600 dark:text-rose-400',     bg: 'bg-rose-50 dark:bg-rose-950/30' },
 ];
 
 export default function Dashboard() {

@@ -6,12 +6,14 @@ import StatusBadge from '../components/jobs/StatusBadge';
 import { Bell, Pencil, Check, X, StickyNote, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { jobService } from '../services/jobService';
 
 export default function Notes() {
   const dispatch = useDispatch();
   const jobs = useSelector((state) => state.jobs?.jobs ?? []);
   const [editingId, setEditingId] = useState(null);
   const [editValue, setEditValue] = useState('');
+  const [isSaving, setIsSaving] = useState(false);
 
   const jobsWithNotes = jobs.filter((job) => job.notes);
   const reminders = jobs
@@ -23,10 +25,23 @@ export default function Notes() {
     setEditValue(job.notes || '');
   };
 
-  const saveEdit = (job) => {
-    dispatch(updateJob({ ...job, notes: editValue }));
-    setEditingId(null);
-    toast.success('Note saved');
+  const saveEdit = async (job) => {
+    if (isSaving) return;
+    setIsSaving(true);
+    const loadToast = toast.loading('Saving note...');
+    try {
+      const updatedJob = { ...job, notes: editValue };
+      await jobService.updateJob(job.id, updatedJob);
+      dispatch(updateJob(updatedJob));
+      setEditingId(null);
+      toast.dismiss(loadToast);
+      toast.success('Note saved');
+    } catch (err) {
+      toast.dismiss(loadToast);
+      toast.error(err.message || 'Failed to save note.');
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   return (
@@ -88,15 +103,17 @@ export default function Notes() {
                       <div className="flex gap-2">
                         <button
                           onClick={() => saveEdit(job)}
-                          className="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-white text-[11px] font-semibold uppercase rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-50 transition-all shadow-sm"
+                          disabled={isSaving}
+                          className="flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-zinc-100 text-white text-[11px] font-semibold uppercase rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-50 transition-all shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          <Check size={13} /> Save Changes
+                          <Check size={13} className="shrink-0" /> {isSaving ? 'Saving...' : 'Save Changes'}
                         </button>
                         <button
                           onClick={() => setEditingId(null)}
-                          className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold uppercase text-zinc-500 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all"
+                          disabled={isSaving}
+                          className="flex items-center gap-2 px-4 py-2 text-[11px] font-semibold uppercase text-zinc-500 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800/50 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          <X size={13} /> Cancel
+                          <X size={13} className="shrink-0" /> Cancel
                         </button>
                       </div>
                     </div>

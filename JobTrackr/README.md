@@ -2,6 +2,12 @@
 
 A clean, modern job application tracker built with React. Keep all your job applications organised in one place — track statuses, attach resumes, set reminders, and get a visual overview of your job search progress.
 
+![JobTrackr](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=white)
+![Vite](https://img.shields.io/badge/Vite-7-646CFF?style=flat&logo=vite&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4-06B6D4?style=flat&logo=tailwindcss&logoColor=white)
+![MUI](https://img.shields.io/badge/MUI-7-007FFF?style=flat&logo=mui&logoColor=white)
+![Redux](https://img.shields.io/badge/Redux_Toolkit-2-764ABC?style=flat&logo=redux&logoColor=white)
+
 ---
 
 ## Features
@@ -27,7 +33,8 @@ A clean, modern job application tracker built with React. Keep all your job appl
 | Build Tool | Vite 7 |
 | Styling | Tailwind CSS v4 |
 | Component Library | Material UI v7 |
-| Routing | React Router v6 |
+| State Management | Redux Toolkit |
+| Routing | React Router v7 |
 | Forms | React Hook Form |
 | Charts | Chart.js + react-chartjs-2 |
 | Icons | Lucide React |
@@ -47,7 +54,7 @@ A clean, modern job application tracker built with React. Keep all your job appl
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-vivekkad1/jobtrackr.git
+   git clone https://github.com/your-username/jobtrackr.git
    cd jobtrackr
    ```
 
@@ -62,6 +69,13 @@ A clean, modern job application tracker built with React. Keep all your job appl
    ```
 
 4. **Open your browser** and navigate to `http://localhost:5173`
+
+### Build for Production
+
+```bash
+npm run build
+npm run preview
+```
 
 ---
 
@@ -82,7 +96,7 @@ src/
 │   ├── Notes.jsx
 │   └── Login.jsx
 ├── store/
-│   ├── index.js        
+│   ├── index.js        # Redux store
 │   ├── jobsSlice.js    # Jobs state + localStorage persistence
 │   ├── authSlice.js    # Auth state
 │   └── uiSlice.js      # Dark mode toggle
@@ -110,9 +124,12 @@ src/
 
 ## Notes on Data Storage
 
-All application data, including uploaded resumes (Base-64 encoded) is stored in the browser's `localStorage`. There is no backend or database. Clearing site data in your browser will erase all records.
+All application data including uploaded resumes (Base-64 encoded) is stored in the browser's `localStorage`. There is no backend or database. Clearing site data in your browser will erase all records.
 
 > **Tip:** If you plan to store many applications with large resume files, be mindful of the browser's `localStorage` size limit (~5MB per origin).
 
 ---
 
+## License
+
+MIT

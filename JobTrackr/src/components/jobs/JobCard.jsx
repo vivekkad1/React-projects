@@ -5,16 +5,25 @@ import StatusBadge from './StatusBadge';
 import { formatDate, isReminderSoon, isReminderOverdue, daysUntil } from '../../utils/dateHelpers';
 import { MapPin, Pencil, Trash2, Eye, Calendar, Bell } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { jobService } from '../../services/jobService';
 
 export default function JobCard({ job }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const handleDelete = (e) => {
+  const handleDelete = async (e) => {
     e.stopPropagation();
     if (window.confirm(`Delete application at ${job.company}?`)) {
-      dispatch(deleteJob(job.id));
-      toast.success('Job removed');
+      const loadToast = toast.loading('Deleting...');
+      try {
+        await jobService.deleteJob(job.id);
+        dispatch(deleteJob(job.id));
+        toast.dismiss(loadToast);
+        toast.success('Job removed');
+      } catch (err) {
+        toast.dismiss(loadToast);
+        toast.error(err.message || 'Failed to remove job.');
+      }
     }
   };
 

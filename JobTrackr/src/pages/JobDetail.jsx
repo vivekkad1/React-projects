@@ -10,6 +10,7 @@ import {
   FileText, Check, ArrowLeft,
 } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { jobService } from '../services/jobService';
 
 export default function JobDetail() {
   const { jobId } = useParams();
@@ -18,6 +19,8 @@ export default function JobDetail() {
   const job = useSelector((state) => state.jobs.jobs.find((job) => job.id === jobId));
   const [editingNotes, setEditingNotes] = useState(false);
   const [notesValue, setNotesValue] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [isSavingNotes, setIsSavingNotes] = useState(false);
 
   if (!job) {
     return (
@@ -33,11 +36,23 @@ export default function JobDetail() {
   const reminderSoon = isReminderSoon(job.reminderDate);
   const reminderOverdue = isReminderOverdue(job.reminderDate);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
+    if (isDeleting) return;
     if (window.confirm('Delete this application?')) {
-      dispatch(deleteJob(job.id));
-      toast.success('Job deleted');
-      navigate('/jobs');
+      setIsDeleting(true);
+      const loadToast = toast.loading('Deleting application...');
+      try {
+        await jobService.deleteJob(job.id);
+        dispatch(deleteJob(job.id));
+        toast.dismiss(loadToast);
+        toast.success('Job deleted');
+        navigate('/jobs');
+      } catch (err) {
+        toast.dismiss(loadToast);
+        toast.error(err.message || 'Failed to delete application.');
+      } finally {
+        setIsDeleting(false);
+      }
     }
   };
 
@@ -46,10 +61,23 @@ export default function JobDetail() {
     setEditingNotes(true);
   };
 
-  const saveNotes = () => {
-    dispatch(updateJob({ ...job, notes: notesValue }));
-    setEditingNotes(false);
-    toast.success('Notes saved');
+  const saveNotes = async () => {
+    if (isSavingNotes) return;
+    setIsSavingNotes(true);
+    const loadToast = toast.loading('Saving notes...');
+    try {
+      const updatedJob = { ...job, notes: notesValue };
+      await jobService.updateJob(job.id, updatedJob);
+      dispatch(updateJob(updatedJob));
+      setEditingNotes(false);
+      toast.dismiss(loadToast);
+      toast.success('Notes saved');
+    } catch (err) {
+      toast.dismiss(loadToast);
+      toast.error(err.message || 'Failed to save notes.');
+    } finally {
+      setIsSavingNotes(false);
+    }
   };
 
   const currentStepIdx = STATUS_ORDER.indexOf(job.status);
@@ -92,7 +120,8 @@ export default function JobDetail() {
             </button>
             <button
               onClick={handleDelete}
-              className="p-2 rounded-lg text-zinc-300 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/30 border border-zinc-200 dark:border-zinc-700 transition-colors"
+              disabled={isDeleting || isSavingNotes}
+              className="p-2 rounded-lg text-zinc-300 hover:text-rose-600 hover:bg-rose-50 dark:hover:bg-rose-900/30 border border-zinc-200 dark:border-zinc-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               title="Delete"
             >
               <Trash2 size={18} />
@@ -220,9 +249,10 @@ export default function JobDetail() {
             <div className="flex gap-2">
               <button
                 onClick={saveNotes}
-                className="px-5 py-2 bg-zinc-900 dark:bg-zinc-100 text-white text-xs font-semibold rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-50 transition-colors shadow-sm"
+                disabled={isSavingNotes}
+                className="px-5 py-2 bg-zinc-900 dark:bg-zinc-100 text-white text-xs font-semibold rounded-lg hover:bg-zinc-800 dark:hover:bg-zinc-50 transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                Save
+                {isSavingNotes ? 'Saving...' : 'Save'}
               </button>
               <button
                 onClick={() => setEditingNotes(false)}

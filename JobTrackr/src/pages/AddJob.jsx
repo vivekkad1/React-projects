@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/set-state-in-effect */
 import { useState, useEffect } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { useDispatch, useSelector } from 'react-redux';
@@ -11,6 +12,8 @@ import {
 import toast from 'react-hot-toast';
 import { v4 as uuidv4 } from 'uuid';
 import { Upload } from 'lucide-react';
+import useAuth from '../hooks/useAuth';
+import { jobService } from '../services/jobService';
 
 const LOCATION_TYPES = ['Remote', 'Hybrid', 'On-site'];
 
@@ -18,6 +21,7 @@ export default function AddJob() {
   const { jobId } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const existingJob = useSelector((state) => state.jobs.jobs.find((job) => job.id === jobId));
   const isEdit = !!jobId;
 
@@ -60,15 +64,32 @@ export default function AddJob() {
     }
   }, [isEdit, existingJob, reset]);
 
-  const onSubmit = (data) => {
-    if (isEdit) {
-      dispatch(updateJob({ ...existingJob, ...data, resume: resumeFile }));
-      toast.success('Application updated');
-    } else {
-      dispatch(addJob({ id: uuidv4(), createdAt: new Date().toISOString(), ...data, resume: resumeFile }));
-      toast.success('Application tracked');
+  const onSubmit = async (data) => {
+    if (!user) {
+      toast.error('You must be logged in to manage job applications.');
+      return;
     }
-    navigate('/jobs');
+    try {
+      if (isEdit) {
+        const updatedJob = { ...existingJob, ...data, resume: resumeFile };
+        await jobService.updateJob(existingJob.id, updatedJob);
+        dispatch(updateJob(updatedJob));
+        toast.success('Application updated');
+      } else {
+        const newJob = {
+          id: uuidv4(),
+          createdAt: new Date().toISOString(),
+          ...data,
+          resume: resumeFile
+        };
+        const savedJob = await jobService.createJob(user.uid, newJob);
+        dispatch(addJob(savedJob));
+        toast.success('Application tracked');
+      }
+      navigate('/jobs');
+    } catch (err) {
+      toast.error(err.message || 'An error occurred while saving the application.');
+    }
   };
 
   const handleFileChange = (e) => {
@@ -137,7 +158,12 @@ export default function AddJob() {
                 control={control}
                 rules={{ required: true }}
                 render={({ field }) => (
-                  <Select label="Location Type" {...field}>
+                  <Select 
+                    label="Location Type" 
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                  >
                     {LOCATION_TYPES.map((l) => <MenuItem key={l} value={l}>{l}</MenuItem>)}
                   </Select>
                 )}
@@ -151,7 +177,12 @@ export default function AddJob() {
                 control={control}
                 rules={{ required: 'Status is required' }}
                 render={({ field }) => (
-                  <Select label="Status" {...field}>
+                  <Select 
+                    label="Status" 
+                    value={field.value || ''}
+                    onChange={field.onChange}
+                    onBlur={field.onBlur}
+                  >
                     {STATUS_OPTIONS.map((status) => <MenuItem key={status} value={status}>{status}</MenuItem>)}
                   </Select>
                 )}
@@ -171,9 +202,7 @@ export default function AddJob() {
                 placeholder="https://..."
                 error={!!errors.jobUrl}
                 helperText={errors.jobUrl?.message}
-                {...register('jobUrl', {
-                  pattern: { value: /^https?:\/\/.+/, message: 'Must be a valid URL' },
-                })}
+                {...register('jobUrl')}
               />
             </div>
             <div className="relative">

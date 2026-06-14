@@ -5,7 +5,7 @@ import { createTheme, ThemeProvider, CssBaseline } from '@mui/material';
 import { Toaster } from 'react-hot-toast';
 
 import AppLayout from './components/layout/AppLayout';
-import ProtectedRoute from './components/common/ProtectedRoute';
+import ProtectedRoute from './components/ProtectedRoute';
 import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import JobList from './pages/JobList';
@@ -20,6 +20,8 @@ export default function App() {
   useEffect(() => {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
+
+
 
   const muiTheme = createTheme({
     palette: {

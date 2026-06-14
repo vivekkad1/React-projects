@@ -14,7 +14,5 @@ export const store = configureStore({
 
 store.subscribe(() => {
   const state = store.getState();
-  saveState('auth', state.auth);
-  saveState('jobs', state.jobs);
   saveState('ui', state.ui);
 });

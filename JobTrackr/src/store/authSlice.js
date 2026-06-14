@@ -1,9 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { loadState } from '../utils/localStorage';
 
-const persisted = loadState('auth');
-
-const initialState = persisted || {
+const initialState = {
   isAuthenticated: false,
   user: null,
 };
